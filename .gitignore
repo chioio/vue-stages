@@ -1,0 +1,13 @@
+# Log
+logs
+*.log
+
+# OSX
+.DS_Store
+
+# Dependency directory
+node_modules
+
+# Editor
+.idea
+.vscode

@@ -1,0 +1,21 @@
+{
+  "name": "vue-stages",
+  "version": "1.0.0",
+  "description": "Stages of Vue.js learning.",
+  "repository": "https://github.com/chioio/vue-stages.git",
+  "author": "Tenn Chio",
+  "license": "MIT",
+  "private": true,
+  "workspaces": [
+    "packages/basic"
+  ],
+  "scripts": {
+    "dev:basic": "yarn workspace basic dev"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.12.10",
+    "@babel/core": "^7.12.10",
+    "eslint": "^7.17.0",
+    "eslint-plugin-vue": "^7.4.0"
+  }
+}
