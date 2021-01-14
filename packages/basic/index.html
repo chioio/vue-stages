@@ -2,14 +2,49 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Create Vue instance</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vue Stages</title>
+  <script src="https://cdn.jsdelivr.net/npm/axios@0.21.0/dist/axios.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.20/lodash.min.js"></script>
+  <style>
+    .demo {
+      font-family: sans-serif;
+      border: 1px solid #eee;
+      border-radius: 5px;
+      padding: 0.5em 1em;
+      margin-top: 1em;
+      margin-bottom: 1em;
+      font-weight: lighter;
+      user-select: none;
+      overflow-x: auto;
+    }
+
+    .divider {
+      background-color: #eee;
+    }
+  </style>
 </head>
 
 <body>
-  <div id="app">
-    {{ a }}
+  <h1>Computed Property</h1>
+  <div id="computed-basics" class="demo">
+    <h2>Computed Example</h2>
+    <p>Has published books:</p>
+    <span>{{ publishedBooksMessage }}</span>
+    <p>Time: {{ now }}</p>
+  </div>
+
+  <h1>Watcher</h1>
+  <div id="watch-example" class="demo">
+    <h2>Watcher Example</h2>
+    <p>
+      Ask a yes/no question:
+      <input v-model="question" />
+    </p>
+    <p>{{ answer }}</p>
+  </div>
+
   </div>
   <script type="module" src="index.js"></script>
 </body>

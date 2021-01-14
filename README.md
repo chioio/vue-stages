@@ -141,3 +141,59 @@
 
 
 
+### Computed Properties & Watchers
+
+#### Computed Properties
+
+对于复杂的逻辑，应当使用**计算属性**
+
+##### Basic Example
+
+```html
+<div id="computed-basics">
+  <p>Has published books:</p>
+  <span>{{ publishedBooksMessage }}</span>
+</div>
+```
+
+```js
+// Vue 3.0
+Vue.createApp({
+  data() {
+    return {
+      author: {
+        name: 'John Doe',
+        books: [
+          'Vue 2 - Advanced Guide',
+          'Vue 3 - Basic Guide',
+          'Vue 4 - The Mystery'
+        ]
+      }
+    }
+  },
+  computed: {
+    // a computed getter
+    publishedBooksMessage() {
+      // `this` points to the vm instance
+      return this.author.books.length > 0 ? 'Yes' : 'No'
+    }
+  }
+}).mount('#computed-basics')
+```
+
+##### Computted Caching vs Methods
+
+计算属性和方法的结果相同，但**计算属性是基于它们的响应式依赖进行缓存的**。
+
+每当触发重新渲染时，调用方法将**总会**再次执行函数。
+
+##### Computed Setter
+
+计算属性默认只有 **getter** ，但我们可以在需要的时候提供 **setter** 。
+
+#### Watchers
+
+当需要在数据变化时执行异步或开销较大的操作时，watcher 很有用。
+
+
+
