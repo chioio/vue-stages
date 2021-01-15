@@ -224,3 +224,33 @@ Vue.createApp({
 
 
 
+### Conditional Rendering
+
+#### `v-if` Detective
+
+#### `v-else-if` Detective
+
+#### `v-else	` Detective
+
+#### Using `key` to Manage Resuable Elements
+
+为元素添加 `key` 属性可以让元素完全独立，Vue渲染元素将不会复用它们。
+
+#### `v-show` Detective
+
+与 `v-if` 不同的是 `v-show` 元素始终会被渲染并保留 DOM 中；只是简单的切换元素的 CSS `display` 属性。
+
+`v-if` 是“真正”的条件渲染，因为它会确保在切换过程中条件块内的事件监听器和子组件适当地被销毁和重建。
+
+`v-if` 也是**惰性的**：如果在初始渲染时条件为假，则什么也不做——直到条件第一次变为真时，才会开始渲染条件块。
+
+`v-show` 就简单得多——不管初始条件是什么，元素总是会被渲染，并且只是简单地基于 CSS 进行切换。
+
+#### Using `v-if` and `v-for` Together
+
+**永远不要把 `v-if` 和 `v-for` 同时用在同一个元素上。**
+
+一起使用时，`v-for` 具有比 `v-if` 更高的优先级。
+
+
+
