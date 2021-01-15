@@ -197,3 +197,30 @@ Vue.createApp({
 
 
 
+### Class and Style
+
+#### Class
+
+```html
+<!-- Object Syntax -->
+<div 
+	class="static"
+  v-bind:class="{active: isActive, 'text-danger': hasError }"
+></div>
+
+<!-- Array Syntax -->
+<div v-bind:class="[activeClass, errorClass]"></div>
+```
+
+#### Style
+
+```html
+<!-- Object Syntax -->
+<div v-bind:style="{ color: activeColor, fontSize: fontSize + 'px' }"></div>
+
+<!-- Array Syntax -->
+<div v-bind:style="[baseStyles, overridingStyles]"></div>
+```
+
+
+
