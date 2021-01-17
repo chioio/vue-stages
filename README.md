@@ -254,3 +254,32 @@ Vue.createApp({
 
 
 
+### List Rendering
+
+#### `v-for` Detective
+
+可遍历数组，也可遍历对象属性。
+
+> 遍历对象时，会按 `Object.keys()` 的结果遍历，但是**不能**保证它的结果在不同的 JavaScript 引擎下都一致。
+
+#### Array Change Detection
+
+##### Mutation Methods
+
+* `push()`
+* `pop()`
+* `shift()`
+* `unshift()`
+* `splice()`
+* `reverse()`
+
+##### Replacing an Array
+
+* `filter()`
+* `concat()`
+* `slice()`
+
+非变更方法**总是返回一个新数组**。
+
+
+

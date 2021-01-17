@@ -1,52 +1,141 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <title>Vue Basics</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios@0.21.0/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.20/lodash.min.js"></script>
+    <style>
+      .demo {
+        font-family: sans-serif;
+        border: 1px solid #eee;
+        border-radius: 5px;
+        padding: 0.5em 1em;
+        margin-top: 1em;
+        margin-bottom: 1em;
+        font-weight: lighter;
+        user-select: none;
+        overflow-x: auto;
+      }
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Vue Stages</title>
-  <script src="https://cdn.jsdelivr.net/npm/axios@0.21.0/dist/axios.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.20/lodash.min.js"></script>
-  <style>
-    .demo {
-      font-family: sans-serif;
-      border: 1px solid #eee;
-      border-radius: 5px;
-      padding: 0.5em 1em;
-      margin-top: 1em;
-      margin-bottom: 1em;
-      font-weight: lighter;
-      user-select: none;
-      overflow-x: auto;
-    }
+      .divider {
+        background-color: #eee;
+      }
 
-    .divider {
-      background-color: #eee;
-    }
-  </style>
-</head>
+      .tab-button {
+        padding: 6px 10px;
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+        border: 1px solid #ccc;
+        cursor: pointer;
+        background-color: #f0f0f0;
+        margin-bottom: -1px;
+        margin-right: -1px;
+      }
 
-<body>
-  <h1>Computed Property</h1>
-  <div id="computed-basics" class="demo">
-    <h2>Computed Example</h2>
-    <p>Has published books:</p>
-    <span>{{ publishedBooksMessage }}</span>
-    <p>Time: {{ now }}</p>
-  </div>
+      .tab-button:hover {
+        background-color: #e0e0e0;
+      }
 
-  <h1>Watcher</h1>
-  <div id="watch-example" class="demo">
-    <h2>Watcher Example</h2>
-    <p>
-      Ask a yes/no question:
-      <input v-model="question" />
-    </p>
-    <p>{{ answer }}</p>
-  </div>
+      .tab-button:active {
+        background-color: #e0e0e0;
+      }
 
-  </div>
-  <script type="module" src="index.js"></script>
-</body>
+      .tab-button.active {
+        background-color: #303030;
+        color: #fff;
+      }
 
-</html>
+      .demo-tab {
+        border: 1px solid #ccc;
+        padding: 10px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>Computed Property</h1>
+    <div id="computed-basics" class="demo">
+      <h2>Computed Example</h2>
+      <p>Has published books:</p>
+      <span>{{ publishedBooksMessage }}</span>
+      <p>Time: {{ now }}</p>
+    </div>
+
+    <h1>Watcher</h1>
+    <div id="watch-example" class="demo">
+      <h2>Watcher Example</h2>
+      <p>
+        Ask a yes/no question:
+        <input v-model="question" />
+      </p>
+      <p>{{ answer }}</p>
+    </div>
+
+    <h1>List Rendering</h1>
+    <div id="list-rendering" class="demo">
+      <h2>`v-for`</h2>
+      <ul>
+        <li v-for="item in items" :key="item.message">{{ item.message }}</li>
+        <li v-for="(item, index) in items">
+          {{ parentMessage }} - {{ index }} - {{ item.message }}
+        </li>
+      </ul>
+
+      <h2>`of` replace `in`</h2>
+      <ul>
+        <li v-for="item of items" :key="item.id">{{ item.message }}</li>
+      </ul>
+
+      <h2>`v-for` with a Object</h2>
+      <ul>
+        <li v-for="value in object">{{ value }}</li>
+        <div v-for="(value, name, index) in object">
+          {{ index }}. {{ name }}: {{ value }}
+        </div>
+      </ul>
+
+      <h2>Displaying Filtered/Sorted Results</h2>
+      <ul>
+        <li v-for="n in evenNumbers">{{ n }}</li>
+      </ul>
+
+      <h2>Nested `v-for`</h2>
+      <ul v-for="set in sets">
+        <li v-for="n in even(set)">{{ n }}</li>
+      </ul>
+
+      <h2>`v-for` with a Range</h2>
+      <div>
+        <span v-for="n in 10">{{ n }}</span>
+      </div>
+
+      <h2>`v-for` on a `template`</h2>
+      <ul>
+        <template v-for="item in items">
+          <li>{{ item.message }}</li>
+          <li class="divider" role="presentation"></li>
+        </template>
+      </ul>
+    </div>
+
+    <h1>List Example</h1>
+    <div id="todo-list" class="demo">
+      <form v-on:submit.prevent="addNewTodo">
+        <label for="new-todo">Add a todo</label>
+        <input
+          v-model="newTodoText"
+          id="new-todo"
+          placeholder="E.g. Feed the cat"
+        />
+        <button>Add</button>
+      </form>
+      <ul>
+        <todo-item
+          v-for="(todo, index) in todos"
+          :key="todo.id"
+          :title="todo.title"
+          @remove="todos.splice(index, 1)"
+        />
+      </ul>
+    </div>
+

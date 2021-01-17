@@ -71,10 +71,82 @@ Vue.createApp({
   }
 }).mount('#watch-example')
 
+/**
+ * List Rendering
+ */
+Vue.createApp({
+  data: () => ({
+    parentMessage: 'Parent',
+    items: [{ message: 'Foo' }, { message: 'Bar' }],
+    object: {
+      title: 'How to do lists in Vue',
+      author: 'Jane Doe',
+      publishedAt: '2016-04-10'
+    },
+    numbers: [1, 2, 3, 4, 5],
+    sets: [
+      [1, 2, 3, 4, 5],
+      [6, 7, 8, 9, 10]
+    ]
+  }),
+  computed: {
+    evenNumbers() {
+      return this.numbers.filter((number) => number % 2 === 0)
+    }
   },
-  created: function () {
-    // `this` points to the vm instance
-    console.log('a is: ' + this.a)
+  methods: {
+    even(numbers) {
+      return numbers.filter((number) => number % 2 === 0)
+    }
+  }
+}).mount('#list-rendering')
+
+/**
+ * List Example
+ */
+const ListExampleApp = Vue.createApp({
+  data: () => ({
+    newTodoText: '',
+    todos: [
+      {
+        id: 1,
+        title: 'Do the dishes'
+      },
+      {
+        id: 2,
+        title: 'Take out the trash'
+      },
+      {
+        id: 3,
+        title: 'Mow the lawn'
+      }
+    ],
+    nextTodoId: 4
+  }),
+  methods: {
+    addNewTodo() {
+      this.todos.push({
+        is: this.nextTodoId++,
+        title: this.newTodoText
+      })
+      this.newTodoText = ''
+    }
+  }
+})
+
+ListExampleApp.component('todo-item', {
+  template: `
+    <li>
+      {{ title }}
+      <button @click="$emit('remove')">Remove</button>
+    </li>
+  `,
+  props: ['title'],
+  emits: ['remove']
+})
+
+ListExampleApp.mount('#todo-list')
+
   }
 })
 
