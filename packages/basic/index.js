@@ -169,7 +169,88 @@ Vue.createApp({
   })
 }).mount('#form-input-bindings')
 
+/**
+ * Components Basics
+ */
+const ComponentsBasicsApp = Vue.createApp({
+  data: () => ({
+    posts: [
+      { id: 1, title: 'My journey with Vue', content: '...content...' },
+      { id: 2, title: 'Blogging with Vue', content: '...content...' },
+      { id: 3, title: 'Why Vue is so fun', content: '...content...' }
+    ],
+    postFontSize: 1,
+    searchText: '',
+    currentTab: 'Home',
+    tabs: ['Home', 'Posts', 'Archive']
+  }),
+  computed: {
+    currentTabComponent() {
+      return 'tab-' + this.currentTab.toLowerCase()
+    }
   }
 })
 
-vm.$mount('#app')
+ComponentsBasicsApp.component('blog-post', {
+  props: ['post'],
+  template: `
+    <div class="blog-post">
+      <h4>{{ post.title }}</h4>
+      <button @click="$emit('enlarge-text', 0.1)">
+        Enlarge text
+      </button>
+      <div v-html="post.content"></div>
+    </div>
+  `
+})
+
+ComponentsBasicsApp.component('custom-input', {
+  props: ['modelValue'],
+  // Vue 3.0
+  emits: ['update:model-value'],
+  template: `
+    <input
+      :value="modelValue"
+      @input="$emit('update:model-value', $event.target.value)"
+    />
+  `
+})
+
+ComponentsBasicsApp.component('custom-input-gsetter', {
+  props: ['modelValue'],
+  emits: ['update:model-value'],
+  template: `<input v-model="value" />`,
+  computed: {
+    value: {
+      get() {
+        return this.modelValue
+      },
+      set(value) {
+        return this.$emit('update:model-value', value)
+      }
+    }
+  }
+})
+
+ComponentsBasicsApp.component('alert-box', {
+  template: `
+    <div class="demo-alert-box">
+      <strong>Error!</strong>
+      <slot></slot>
+    </div>
+  `
+})
+
+ComponentsBasicsApp.component('tab-home', {
+  template: `<div class="demo-tab">Home component</div>`
+})
+
+ComponentsBasicsApp.component('tab-posts', {
+  template: `<div class="demo-tab">Posts component</div>`
+})
+
+ComponentsBasicsApp.component('tab-archive', {
+  template: `<div class="demo-tab">Archive component</div>`
+})
+
+ComponentsBasicsApp.mount('#components-basics')
