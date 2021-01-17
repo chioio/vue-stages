@@ -147,6 +147,28 @@ ListExampleApp.component('todo-item', {
 
 ListExampleApp.mount('#todo-list')
 
+/**
+ * Form Elements
+ */
+Vue.createApp({
+  data: () => ({
+    message: '',
+    checked: false,
+    checkedNames: [],
+    picked: '',
+    selected: 'A',
+    options: [
+      { text: 'One', value: 'A' },
+      { text: 'Tow', value: 'B' },
+      { text: 'Three', value: 'C' }
+    ],
+    toggle: 'no',
+    radioValue: 'picked',
+    pick: 'unpicked',
+    msg: 'nothing'
+  })
+}).mount('#form-input-bindings')
+
   }
 })
 
