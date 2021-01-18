@@ -7,10 +7,12 @@
   "license": "MIT",
   "private": true,
   "workspaces": [
-    "packages/basic"
+    "packages/basic",
+    "packages/component-in-depth"
   ],
   "scripts": {
-    "dev:basic": "yarn workspace basic dev"
+    "dev:basic": "yarn workspace basic dev",
+    "dev:component": "yarn workspace component-in-depth dev"
   },
   "devDependencies": {
     "@babel/cli": "^7.12.10",

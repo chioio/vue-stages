@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Components In-Depth</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios@0.21.0/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.20/lodash.min.js"></script>
+    <script src="https://use.fontawesome.com/cbb28a648a.js"></script>
+    <style>
+      .demo {
+        font-family: sans-serif;
+        border: 1px solid #eee;
+        border-radius: 5px;
+        padding: 0.5em 1em;
+        margin-top: 1em;
+        margin-bottom: 1em;
+        font-weight: lighter;
+        user-select: none;
+        overflow-x: auto;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>Non-Prop Attributes</h1>
+    <div id="non-prop-attributes" class="demo">
+      <h2>Attribute Inheritance</h2>
+      <!-- Date-picker component with a non-prop attribute -->
+      <date-picker @change="showChange"></date-picker>
+
+      <h2>Disabling Attribute Inheritance</h2>
+      <date-picker2 date-status="activeted"></date-picker2>
+
+      <h2>Attribute Inheritance on Multiple Root Nodes (Vue 3.0)</h2>
+      <custom-layout id="custom-layout" @click="changeValue"></custom-layout>
+    </div>
+
+    <script type="module" src="vue-2.0.js"></script>
+    <script type="module" src="vue-3.0.js"></script>
+  </body>
+</html>
