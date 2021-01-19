@@ -479,3 +479,84 @@ Vue.config.keyCodes.f1 = 112
 
 
 
+### Form Input Bindings
+
+在表单 `<input>`、`<textarea>`、及 `<select>` 元素上使用 `v-model` 创建双向数据绑定。
+
+> `v-model` 会忽略所有表单元素 `value`、`checked`、`selected` 属性的初始值而总是将 Vue 实例的数据作为数据来源。应当在 `data` 选项中声明初始值。
+
+`v-model` 在内部为不同的输入元素使用不同的 property 并抛出不同的事件：
+
+* text 和 textarea 元素使用 `value` 属性和 `input` 事件；
+* checkbox 和 radio 使用 `checked` 属性和 `change` 事件；
+* select 字段将 `value` 作为 prop 并将 `change` 作为事件。
+
+> 在文本区域插值（`<textarea>{{text}}</textarea>`）并不会生效，应用（`v-model`）来代替。
+
+#### Modifiers
+
+##### `.lazy`
+
+在 `change` 事件之后进行同步。
+
+##### `.number`
+
+将用户输入的值转为数值类型。
+
+* HTML 输入元素的值总会返回字符串。
+
+##### `.trim`
+
+过滤用户输入的首位空白字符。
+
+
+
+### Components Basics
+
+#### `data` Must Be a Function
+
+**一个组件的 `data` 选项必须是一个函数。**
+
+##### Component Retestration Type
+
+注册类型：**全局注册**和**局部注册**
+
+#### Listening to Child Components Events
+
+（Vue 3.0）我们可以在组件的 `emits` 选项中列出发出的事件：
+
+```js
+app.component('blog-post', {
+	props: ['title'],
+	emits: ['enlargeText']
+})
+```
+
+#### Content Distribution with Slots（插槽）
+
+##### `<slot></slot>`
+
+#### DOM Template Parsing Caveats
+
+有些 HTML 元素，诸如 `<ul>`、`<ol>`、`<table>` 和 `<select>`，对于哪些元素可以出现在其内部是有严格的限制的。而有些元素，诸如 `<li>`、`<tr>` 和 `<option>`，只能出现在其它某些特定的元素内部。
+
+```html
+<table>
+  <!-- 渲染将提升到外部，导致渲染出错 -->
+  <blog-post-row></blog-post-row>
+</table>
+
+<!-- 变通使用 `is` attribute -->
+<table>
+  <tr is="blog-post-row"></tr>
+</table>
+```
+
+以下模版使用将不受这条限制：
+
+* 字符串（`template: '...'`)
+* SFC（`.vue`）
+* `<script type="text/x-template">`
+
+
+
