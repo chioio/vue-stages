@@ -560,3 +560,103 @@ app.component('blog-post', {
 
 
 
+## Component In-Depth
+
+### Component Registration
+
+#### Component Names
+
+##### With kebab-case
+
+```js
+app.component('my-component-name', { /* ... */ })
+```
+
+##### With PascalCase
+
+```js
+app.component('MyComponentName', { /* ... */ })
+```
+
+#### Global Registration
+
+`Vue.component`
+
+#### Local Registration
+
+```js
+const ComponentA = {
+  /* ... */
+}
+
+const ComponentB = {
+  /* ... */
+}
+
+const ComponentC = {
+  /* ... */
+}
+```
+
+在 `components` 选项中定义想要使用的组件：
+
+```js
+const app = Vue.create({
+  components: {
+    'component-a': ComponentA,
+    'component-b': ComponentB
+  }
+})
+```
+
+**局部注册的组件在其子组件中不可用**。
+
+#### Module Systems
+
+在 **[Vue CLI 3+]()** 中使用 `require.context` 只全局注册非常通用的组件。
+
+`src/main.js` 示例：
+
+```js
+import Vue from 'vue'
+import upperFirst from 'lodash/upperFirst'
+import camelCase from 'lodash/camelCase'
+
+const requireComponent = require.context(
+	// 其组件目录的相对路径
+  './components',
+  // 是否查询其子目录
+  false,
+  // 匹配基础组件文件名的正则表达式
+  /Base[A-Z]\w+\.(vue|js)$/
+)
+
+requireComponent.keys().forEach(fileName => {
+  // 获取组件配置
+  const componentConfig = requireComponent(fileName)
+  
+  // 获取组件的 PascalCase 命名
+  const componentName = upperFirst(
+    camelCase(
+      // 获取和目录深度无关的文件名
+      fileName
+      	.split('/')
+      	.pop()
+      	.replace(/\.\w+$/, '')
+    )
+  )
+  
+  // 全局注册组件
+  Vue.component(
+  	componentName,
+    // 如果组件选项是通过 `export default` 导出的，
+    // 就会优先使用 `.default`，否则会退到使用模块的根。
+    componentConfig.default || componentConfig
+  )
+})
+```
+
+全局注册的行为必须在根 Vue 实例（通过 `new Vue`）创建之前发生。
+
+
+
