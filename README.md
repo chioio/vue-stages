@@ -283,3 +283,199 @@ Vue.createApp({
 
 
 
+### Event Handling
+
+#### Listening to Events
+
+##### `v-on` Detective
+
+通过 `v-on` 指令监听 DOM 事件。
+
+##### Method Event Handlers
+
+通过方法定义解决复杂的事件处理。
+
+##### Methods in Inline Handlers
+
+```html
+<div id="inline-handler">
+  <button @click="say('hi')">
+    Say hi
+  </button>
+  <button @click="say('what')">
+    Say what
+  </button>
+</div>
+```
+
+```js
+Vue.createApp({
+  methods: {
+    say(message) {
+      alert(message)
+    }
+  }
+}).mount('#inline-handler')
+```
+
+通过 `$event` 传入方法访问原始的 DOM 事件
+
+```html
+<button v-on:click="warn('Form cannot be submitted yet.', $event)">
+  Submit
+</button>
+```
+
+```js
+// ...
+methods: {
+  warn(message, event) {
+    if (event) {
+      event.preventDefault()
+    }
+    alert(message)
+  }
+}
+```
+
+#### Multiple Event Handlers (Vue 3.0)
+
+```html
+<!-- both one() and two() execute on button click -->
+<button @click="one($event), two($event)">
+  Submit
+</button>
+```
+
+```js
+// ...
+methods: {
+  one(event) {
+    // first handler logic...
+  },
+  two(event) {
+    // second handler logic...
+  }
+}
+```
+
+#### Event Modifiers
+
+在事件处理程序中调用 `event.preventDefault()` 或 `event.stopPropagation()` 是非常常见的需求。
+
+* `.stop`
+
+  ```html
+  <!-- 阻止单击事件继续传播 -->
+  <a v-on:click.stop="doThis"></a>
+  ```
+
+* `.prevent`
+
+  ```html
+  <!-- 提交事件不再重载页面 -->
+  <form v-on:submit.prevent="onSubmit"></form>
+  <!-- 修饰符可以串联 -->
+  <a v-on:click.stop.prevent="doThat"></a>
+  <!-- 只有修饰符 -->
+  <form v-on:submit.prevent></form>
+  ```
+
+* `.capture`
+
+  ```html
+  <!-- 添加事件监听器时使用事件捕获模式 -->
+  <!-- 即内部元素触发的事件先在此处理，然后才交由内部元素进行处理 -->
+  <div v-on:click.capture="doThis">...</div>
+  ```
+
+* `.self`
+
+  ```html
+  <!-- 只当 event.target 是当前元素自身时触发处理函数 -->
+  <div v-on:click.self="doThat">...</div>
+  ```
+
+* `.once`
+
+  ```html
+  <!-- 点击事件将只会触发一次 -->
+  <a v-on:click.once="doThis"></a>
+  ```
+
+* `.passive`
+
+  ```html
+  <!-- 滚动事件的默认行为 (即滚动行为) 将会立即触发 -->
+  <!-- 而不会等待 `onScroll` 完成  -->
+  <!-- 这其中包含 `event.preventDefault()` 的情况 -->
+  <div v-on:scroll.passive="onScroll">...</div>
+  ```
+
+#### Key Modifiers
+
+`@keyup.enter="..."`
+
+`@keyup.page-down="..."`
+
+##### Key Aliases
+
+* `.enter`
+* `.tab`
+* `.delete` （捕获“删除”和“退格”键）
+* `.esc`
+* `.space`
+* `.up`
+* `.down`
+* `.left`
+* `.right`
+
+通过全局 `.config.keyCodes` 对象自定义按键修饰符别名：
+
+```js
+Vue.config.keyCodes.f1 = 112
+```
+
+#### System Modifiers Keys
+
+* `.ctrl`
+* `.alt`
+* `.shift`
+* `.meta`
+
+> ⚠️：在 Mac 系统键盘上，meta 对应 command 键 (⌘)。在 Windows 系统键盘 meta 对应 Windows 徽标键 (⊞)。在 Sun 操作系统键盘上，meta 对应实心宝石键 (◆)。在其他特定键盘上，尤其在 MIT 和 Lisp 机器的键盘、以及其后继产品，比如 Knight 键盘、space-cadet 键盘，meta 被标记为“META”。在 Symbolics 键盘上，meta 被标记为“META”或者“Meta”。
+
+```html
+<!-- Alt + C -->
+<input v-on:keyup.alt.67="clear">
+
+<!-- Ctrl + Click -->
+<div v-on:click.ctrl="doSomething">Do something</div>
+```
+
+##### `.exact` Modifier
+
+`.exact` 修饰符允许控制由精确的系统修饰符组合触发的事件。
+
+```html
+
+<!-- 即使 Alt 或 Shift 被一同按下时也会触发 -->
+<button v-on:click.ctrl="onClick">A</button>
+
+<!-- 有且只有 Ctrl 被按下的时候才触发 -->
+<button v-on:click.ctrl.exact="onCtrlClick">A</button>
+
+<!-- 没有任何系统修饰符被按下的时候才触发 -->
+<button v-on:click.exact="onClick">A</button>
+```
+
+##### Mouse Button Modifiers
+
+* `.left`
+* `.right`
+* `.middle`
+
+这些修饰符会限制处理函数仅响应特定的鼠标按钮。
+
+
+
