@@ -19,6 +19,26 @@
         user-select: none;
         overflow-x: auto;
       }
+      .tab-button {
+        padding: 6px 10px;
+        border-top-left-radius: 3px;
+        border-top-right-radius: 3px;
+        border: 1px solid #ccc;
+        cursor: pointer;
+        background: #f0f0f0;
+        margin-bottom: -1px;
+        margin-right: -1px;
+      }
+      .tab-button:hover {
+        background: #e0e0e0;
+      }
+      .tab-button.active {
+        background: #e0e0e0;
+      }
+      .demo-tab {
+        border: 1px solid #ccc;
+        padding: 10px;
+      }
     </style>
   </head>
 
@@ -34,6 +54,45 @@
 
       <h2>Attribute Inheritance on Multiple Root Nodes (Vue 3.0)</h2>
       <custom-layout id="custom-layout" @click="changeValue"></custom-layout>
+    </div>
+
+    <h1>Custom Events - Vue 2.0</h1>
+    <div id="custom-events-2" class="demo">
+      <h2>Custom Event Definition `v-model`</h2>
+      <base-checkbox v-bind:checked.sync="lovingVue"></base-checkbox>
+      <p>Loving Vue? {{ lovingVue }}</p>
+
+      <h2>Binding Native Events on Component</h2>
+      <base-input
+        label="Base Input"
+        v-model="inputValue"
+        v-on:focus="onFocus"
+        v-on:blur="onBlur"
+      ></base-input>
+      <div>
+        Input Value: {{ inputValue }} <br />
+        Is Focus: {{ isFocus }}
+      </div>
+    </div>
+
+    <h1>Custom Events - Vue 3.0</h1>
+    <div id="custom-events-3" class="demo">
+      <h2>Custom Events Definition `v-model`</h2>
+      <base-checkbox v-model:checked="lovingVue"></base-checkbox>
+      <p>Loving Vue? {{ lovingVue }}</p>
+      <base-input v-model:title="bookTitle"></base-input>
+      <div>{{ bookTitle }}</div>
+
+      <h2>Multiple `v-model` Bindings</h2>
+      <user-name
+        v-model:first-name="firstName"
+        v-model:last-name="lastName"
+      ></user-name>
+      <div>Full name is {{ firstName + ' ' + lastName }}</div>
+
+      <h2>Custom Modifiers</h2>
+      <my-component v-model.capitalize="myText"></my-component>
+      <div>Input text is {{ myText }}</div>
     </div>
 
     <script type="module" src="vue-2.0.js"></script>

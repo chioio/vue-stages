@@ -748,3 +748,126 @@ props: {
 
 
 
+### Custom Events
+
+#### `$listeners` Property (Vue 2.0)
+
+配合 `v-on="$listeners"` 将所有的事件监听器指向这个组件的某个特定元素。
+
+```js
+Vue.component('base-input', {
+  inheritAttrs: false,
+  props: ['label', 'value'],
+  computed: {
+    inputListeners() {
+      let vm = this
+      return Object.assign({},
+      	this.$listeners,
+        {
+        	// 确保配合 `v-model` 的工作
+        	input(event) {
+            vm:$emit('input', event.target.value)
+          }
+      	}
+      )
+    }
+  },
+  template: `
+		<label>
+			{{ label }}
+			<input
+				v-bind="$attrs"
+				v-bind:value="value"
+				v-on="inputListeners"
+			/>
+		</label>
+	`
+})
+```
+
+#### `.sync`  Modifier
+
+```js
+this.$emit('update:title', newTitle)
+```
+
+```html
+<text-document
+	v-bind:title="doc.title"
+	v-on:update:title="doc.title = $event"
+></text-document>
+<!-- 使用 `.sync` 修饰符 -->
+<text-document v-bind:title.sync="doc.title"></text-document>
+```
+
+> 注意带有 `.sync` 修饰符的 `v-bind` **不能**和表达式一起使用，只能提供想要绑定的 property 名，类似于 `v-model`。
+>
+> 将 `v-bind.sync` 用在一个字面量的对象上，例如 `v-bind.sync="{ title: doc.title }"` 是无效的。
+
+#### Validate Emitted Events (Vue 3.0)
+
+```js
+app.component('custom-form', {
+  emits: {
+    // No validation
+    click: null,
+    // Validate submit event
+    submit: ({ email, password }) => {
+      if (email && password) {
+        return true
+      } else {
+        console.warn('Invalid submit event payload!')
+        return false
+      }
+    }
+  },
+  methods: {
+    submitForm() {
+      this.$emit('submit', { email, passord })
+    }
+  }
+})
+```
+
+#### Handling `v-model` Modifiers (Vue 3.0)
+
+##### Custom modifiers
+
+```js
+app.component('my-component', {
+  props: {
+    modelValue: String,
+    modelModifiers: {
+      default: () => ({})
+    }
+  },
+  emits: ['update:model-value'],
+  methods: {
+    emitValue(e) {
+      let value = e.target.value
+      if (this.modelModifiers.capitalize) {
+        value = value.charAt(0).toUpperCase() + value.slice(1)
+      }
+      this.$emit('update:model-value', value)
+    }
+  },
+  template: `
+		<input type="text"
+			:value="modelValue"
+			@input="emitValue"
+		/>
+	`,
+  created() {
+		console.log(this.modelModifiers)	// { captialize: true }
+  }
+})
+```
+
+对于 `v-model` 绑定参数，产生的 prop 将会是 `arg + "Modifiers"`：
+
+```html
+<my-component v-model:description.captialize="myText"></my-component>
+```
+
+
+
