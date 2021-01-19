@@ -660,3 +660,91 @@ requireComponent.keys().forEach(fileName => {
 
 
 
+### Props
+
+#### Need `v-bind`
+
+传入数字、布尔值、数组、对象时应当用 `v-bind` 来告诉 Vue 这是一个 JavaScript 表达式，而不是一个字符串。
+
+##### Passing the Properties of an Object
+
+通过使用不带参数的 `v-bind` （取代 `v-bind:prop:name`）将一个对象的所有 property 都作为 prop 传入：
+
+```js
+post: {
+  id: 1,
+    title: 'My Journey with Vue'
+}
+```
+
+```html
+<blog-post v-bind="post"></blog-post>
+<!-- 等价于 -->
+<blog-post v-bind:id="post.id" v-bind:title="post.title"></blog-post>
+```
+
+#### One-Way Data Flow
+
+所有的 prop 都使得其父子 prop 之间形成了一个**单向下行绑定**：父级的 prop 的更新会向下流动到子组件中，但是反过来不行。
+
+变更一个 prop 的两种情形：
+
+1. **这个 prop 用来传递一个初始值；这个子组件接下来希望将其作为一个本地的 prop 数据来使用。**通过定义本地 data 属性解决：
+
+   ```js
+   props: ['initialCounter'],
+   data: () => ({
+     counter: this.initialCounter
+   })
+   ```
+
+2. **这个 prop 以一种原始的值传入且需要进行转换。**通过计算属性解决：
+
+   ```js
+   props: ['size'],
+   computed: {
+     normalizedSize() {
+       return this.size.trim().toLowerCase()
+     }
+   }
+   ```
+
+#### Prop Validation
+
+`type`, `required`, `default` `validator`
+
+**对象**或**数组**默认值必须从一个工厂函数获取。
+
+自定义验证函数：
+
+```js
+props: {
+  propObject: {
+    type: Object,
+    default: () => ({ message: 'hello' })
+  },
+  propCusValid: {
+  	validator: (value) => ['success', 'warning', 'danger'].indexOf(value) !== -1
+	}
+}
+```
+
+> prop 会在一个组件实例创建**之前**进行验证，所以实例的 property（如 `data`、`computed` 等）在 `default` 或 `validator`函数中是**不可用**的。
+
+#### Type Checks
+
+`type` 能够是下列原生构造函数中的任意一个：
+
+* String
+* Number
+* Boolean
+* Array
+* Object
+* Date
+* Function
+* Symbol
+
+`type` 还可以是一个自定义的构造函数，并通过 `instanceof` 来进行检查确认。
+
+
+
