@@ -39,6 +39,34 @@
         border: 1px solid #ccc;
         padding: 10px;
       }
+      .dynamic-component-demo-posts-tab {
+        display: flex;
+        border: 1px solid #ccc;
+        padding: 10px;
+      }
+      .dynamic-component-demo-posts-sidebar {
+        max-width: 140px;
+        min-width: 120px;
+        margin: 0 !important;
+        padding: 0 10px 0 0 !important;
+        list-style-type: none;
+        border-right: 1px solid #ccc;
+      }
+      .dynamic-component-demo-posts-sidebar li {
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        cursor: pointer;
+      }
+      .dynamic-component-demo-posts-sidebar li.dynamic-component-demo-active {
+        background: lightblue;
+      }
+      .dynamic-component-demo-posts-sidebar li:hover {
+        background: #eee;
+      }
+      .dynamic-component-demo-post-container {
+        padding-left: 10px;
+      }
     </style>
   </head>
 
@@ -160,6 +188,29 @@
       </todo-list>
     </div>
 
+    <h1>Dynamic & Async Component</h1>
+    <div id="dynamic-async-component" class="demo">
+      <h2>Keep Alive</h2>
+      <button
+        v-for="tab in tabs"
+        :key="tab"
+        :class="['tab-button', {active: currentTab === tab }]"
+        @click="currentTab = tab"
+      >
+        {{ tab }}
+      </button>
+      <keep-alive>
+        <component :is="currentTabComponent" class="tab"></component>
+      </keep-alive>
+      <h2>Async Component</h2>
+      <async-comp></async-comp>
+    </div>
+
+    <h1>Async Component - Vue 2.0</h1>
+    <div id="async-component-2" class="demo">
+      <h2>Async Component</h2>
+      <async-example></async-example>
+    </div>
     <script type="module" src="vue-2.0.js"></script>
     <script type="module" src="vue-3.0.js"></script>
   </body>

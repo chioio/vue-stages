@@ -67,3 +67,33 @@ Vue.component('base-input', {
 
 CustomEventsApp.$mount('#custom-events-2')
 
+/**
+ * Async Components
+ */
+Vue.component('async-example', function (resolve, reject) {
+  setTimeout(function () {
+    resolve({
+      template: `<div>I am async!</div>`
+    })
+  }, 1000)
+})
+
+Vue.component(
+  'async-webpack-example',
+  // function (resolve) {
+  //   require(['./my-async-component'], resolve)
+  // }
+  () => import('./my-async-component')
+)
+
+// Handling loading state
+const AsyncComponent = () => ({
+  component: import('./MyComponent.vue'),
+  loading: LoadingComponent,
+  delay: 200,
+  timeout: 3000
+})
+
+const AsyncComponentApp = new Vue({})
+
+AsyncComponentApp.$mount('#async-component-2')

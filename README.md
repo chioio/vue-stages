@@ -925,3 +925,39 @@ app.component('my-component', {
 
 
 
+### Dynamic & Async Components
+
+#### Dynamic Component
+
+`keep-alive`
+
+#### Async Component (Vue 3.0)
+
+* 通过 `defineAsyncComponent` 定义异步组件
+* 结合 webpack 通过（工厂函数返回一个 `Promise`） `import('component')` 导入
+
+#### Using with Suspense
+
+如果异步组件的父链中有一个 `<Suspense>`，该组件被视为该 `<Suspense>` 的异步依赖。在这种情况下加载状态将由 `<Suspense>` 控制，组件自身的加载、错误、延时和超时选项将被忽略。
+
+可在异步组件中通过 `suspensable:false` 退出 `Suspense` 控制，让组件始终控制自己的加载状态。
+
+#### Async Component (Vue 2.0)
+
+* 通过回调函数定义异步组件
+
+* 结合 webpack 通过（工厂函数返回一个 `Promise`） `import('component')` 导入
+
+##### Handling Loading State
+
+```js
+const AsyncComp = () => ({
+  component: import('./MyComponent.vue'),
+  loading: LoadingComponent,
+  error: ErrorComponent,
+  delay: 200,
+  timeout: 3000
+})
+```
+
+
