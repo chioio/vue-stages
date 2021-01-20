@@ -871,3 +871,48 @@ app.component('my-component', {
 
 
 
+### Slots
+
+父级模版里的所有内容都是父级作用域中变异的；子模版里的所有内容都是在子作用域中编译的。
+
+#### Dynamic Slots Name
+
+```html
+<base-input>
+	<template v-slot:[dynamicSlotName]>...</template>
+</base-input>
+```
+
+#### Named Slots Shorthand
+
+```html
+<base-layout>
+  <template #header>
+    <h1>
+      Here might be a page title
+    </h1>
+  </template>
+  
+  <p>
+    A paragraph for the main content.
+  </p>
+  <p>
+    And another one.
+  </p>
+  
+  <template #footer>
+    <p>
+      Here's some content info
+    </p>
+  </template>
+</base-layout>
+
+<current-user #default="{user}">
+  {{ user.firstName }}
+</current-user>
+```
+
+**插槽 prop 允许我们将插槽转换为可复用的模版，这些模版可以基于输入的 prop 渲染出不同的内容。**
+
+
+

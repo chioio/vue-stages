@@ -95,6 +95,64 @@
       <div>Input text is {{ myText }}</div>
     </div>
 
+    <h1>Slots</h1>
+    <div id="slots" class="demo">
+      <h2>Slot Content</h2>
+      <i class="fa fa-plus-square"></i>
+      <font-awesome-icon name="plus-square-o"></font-awesome-icon>
+      <todo-button>Add todo</todo-button>
+      <br />
+
+      <h2>Fallback Content</h2>
+      <submit-button></submit-button>
+      <submit-button>Save</submit-button>
+
+      <h2>Named Slots</h2>
+      <base-layout>
+        <template v-slot:header>
+          <h1>Here might be a page title</h1>
+        </template>
+        <template v-slot:default>
+          <p>A paragraph for the main content.</p>
+          <p>And another one.</p>
+        </template>
+        <template v-slot:footer>
+          <p>Here's some contact info</p>
+        </template>
+      </base-layout>
+
+      <h2>Scoped Slots</h2>
+      <todo-list>
+        <template v-slot:default="{ item = 'Placeholder' }">
+          <i class="fa fa-check"></i>
+          <span class="green">{{ item }}</span>
+        </template>
+      </todo-list>
+
+      <h2>Dynamic Slot Names</h2>
+      <base-layout>
+        <template v-slot:[dynamicSlotName]></template>
+      </base-layout>
+
+      <h2>Named Slots Shorthand</h2>
+      <base-layout>
+        <template #header>
+          <h1>Here might be a page title</h1>
+        </template>
+        <template #default>
+          <p>A paragraph for the main content.</p>
+          <p>And another one.</p>
+        </template>
+        <template #footer>
+          <p>Here's some contact info</p>
+        </template>
+      </base-layout>
+      <todo-list #default="{ item }">
+        <i class="fa fa-check-square"></i>
+        <span class="green">{{ item }}</span>
+      </todo-list>
+    </div>
+
     <script type="module" src="vue-2.0.js"></script>
     <script type="module" src="vue-3.0.js"></script>
   </body>

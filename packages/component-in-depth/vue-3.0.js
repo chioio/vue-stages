@@ -185,3 +185,77 @@ CustomEventsApp.component('my-component', {
 
 CustomEventsApp.mount('#custom-events-3')
 
+/**
+ * Slots
+ */
+const TodoButton = {
+  template: `
+    <button class="btn-primary">
+      <slot></slot>
+    </button>
+  `
+}
+
+const SubmitButton = {
+  template: `
+    <button type="submit">
+      <slot>Submit</slot>
+    </button>
+  `
+}
+
+const FontAwesomeIcon = {
+  props: {
+    name: String
+  },
+  template: `
+    <i :class="'fa fa-' + name"></i>
+  `
+}
+
+const BaseLayout = {
+  template: `
+    <div class="container">
+      <header>
+        <slot name="header"></slot>
+      </header>
+      <main>
+        <slot></slot>
+      </main>
+      <footer>
+        <slot name="footer"></slot>
+      </footer>
+    </div>
+  `
+}
+
+const TodoList = {
+  data: () => ({
+    items: ['Feed a cat', 'Buy milk']
+  }),
+  template: `
+    <ul>
+      <li v-for="(item, index) in items">
+        <slot 
+          :item="item" 
+          :index="index" 
+          :another-attribute="anotherAttribute"
+        ></slot>
+      </li>
+    </ul>
+  `
+}
+
+const SlotsApp = {
+  data: () => ({}),
+  components: {
+    TodoButton,
+    FontAwesomeIcon,
+    SubmitButton,
+    BaseLayout,
+    TodoList
+  }
+}
+
+createApp(SlotsApp).mount('#slots')
+
