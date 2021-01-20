@@ -259,3 +259,37 @@ const SlotsApp = {
 
 createApp(SlotsApp).mount('#slots')
 
+/**
+ * Provide / Inject
+ */
+const ProvideInjectApp = createApp({})
+
+ProvideInjectApp.component('todo-list', {
+  data: () => ({
+    todos: ['Feed a cat', 'Buy tickets']
+  }),
+  provide() {
+    return {
+      user: 'John Doe',
+      // todoLength: this.todos.length
+      todoLength: computed(() => this.todos.length)
+    }
+  },
+  template: `
+    <div>
+      {{ todos.length }}
+      <slot></slot>
+    </div>
+  `
+})
+
+ProvideInjectApp.component('todo-list-statistics', {
+  inject: ['user', 'todoLength'],
+  created() {
+    console.log(`Injected user: ${this.user}`)
+    console.log(`Injected todo length is ${this.todoLength}`)
+  }
+})
+
+ProvideInjectApp.mount('#provide-inject')
+

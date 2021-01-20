@@ -916,3 +916,12 @@ app.component('my-component', {
 
 
 
+### Provide / Inject
+
+父组件通过 `provide` 提供数据，子组件通过 `inject` 选项使用父组件提供的数据。
+
+* 父组件不需要知道哪些子组件使用它提供的 property
+* 子组件不需要知道 `inject` property 来自哪里
+
+
+
