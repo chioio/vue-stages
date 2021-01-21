@@ -972,3 +972,59 @@ const AsyncComp = () => ({
 
 
 
+### Handling Edge Cases
+
+#### Forcing an Update
+
+通过 `$forceUpdate` 强制更新
+
+#### Cheap Static Components with `v-once`
+
+通过向根元素添加 `v-once` 指令来确保只对静态组件求值一次，然后进行缓存。
+
+```js
+app.component('terms-of-service', {
+  template: `
+		<div v-once>
+			<h1>Terms of Service</h1>
+		</div>
+	`
+})
+```
+
+
+
+### Handling Edge Cases (Vue 2.0)
+
+#### Element & Component Access
+
+##### Accessing the Root Instance
+
+`$root`
+
+##### Accessing the Parent Component Instance
+
+`$parent`
+
+##### Accessing Child Component Instances & Child Elements
+
+`ref`, `$refs`
+
+#### Programmatic Event Listeners
+
+通过 `$on(eventName, eventHandler)` 侦听一个事件
+
+通过 `$once(eventName, eventHandler)` 一次性侦听一个事件
+
+通过 `$off(eventName, eventHandler)` 停止侦听一个事件
+
+> 注意 Vue 的事件系统不同于浏览器的 [EventTarget API](https://developer.mozilla.org/zh-CN/docs/Web/API/EventTarget)。尽管它们工作起来是相似的，但是 `$emit`、`$on`, 和 `$off` 并不是 `dispatchEvent`、`addEventListener` 和 `removeEventListener` 的别名。
+
+#### Circular References
+
+##### Recursive Compnents
+
+组件是可以在它们自己的模板中调用自身的。不过它们只能通过 `name` 选项来做这件事。
+
+
+
