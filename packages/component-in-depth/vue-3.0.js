@@ -89,17 +89,15 @@ CustomEventsApp.component('base-checkbox', {
 // Validate emitted events
 CustomEventsApp.component('custom-form', {
   emits: {
-    emits: {
-      // No validation
-      click: null,
-      // Validate submit event
-      submit: ({ email, password }) => {
-        if (email && password) {
-          return true
-        } else {
-          console.warn('Invalid submit event payload!')
-          return false
-        }
+    // No validation
+    click: null,
+    // Validate submit event
+    submit: ({ email, password }) => {
+      if (email && password) {
+        return true
+      } else {
+        console.warn('Invalid submit event payload!')
+        return false
       }
     }
   },
@@ -297,11 +295,12 @@ ProvideInjectApp.mount('#provide-inject')
  * Dynamic & Async Component
  */
 const AsyncComp = defineAsyncComponent(
-  () => new Promise((resolve, reject) => {
-    resolve({
-      template: `<div>I am async!</div>`
+  () =>
+    new Promise((resolve, reject) => {
+      resolve({
+        template: `<div>I am async!</div>`
+      })
     })
-  })
 )
 
 const DynamicAsyncComponentApp = createApp({
