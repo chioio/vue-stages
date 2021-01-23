@@ -1,0 +1,14 @@
+{
+  "name": "transition-animation",
+  "version": "1.0.0",
+  "license": "MIT",
+  "scripts": {
+    "dev": "yarn brow:sync & yarn css:sync",
+    "brow:sync": "browser-sync . --directory --watch --no-notify",
+    "css:sync": "dart-sass index.scss:index.css  --watch --poll --no-source-map"
+  },
+  "devDependencies": {
+    "browser-sync": "^2.26.13",
+    "dart-sass": "^1.25.0"
+  }
+}

@@ -1028,3 +1028,90 @@ app.component('terms-of-service', {
 
 
 
+### Transitions & Animation
+
+* 在 CSS 过渡和动画中自动应用 class
+* 可以配合使用第三方 CSS 动画，如 Animate.css
+* 在过渡钩子函数中使用 JavaScript 直接操作 DOM
+* 可以配合使用第三方 JavaScript 动画库，如 Velocity.js
+
+#####  Transition Classes
+
+`v-enter-from`：定义进入过渡的开始的状态
+
+`v-enter-active`：定义进入过渡生效的状态
+
+`v-enter-to`：定义进入过渡的结束状态
+
+`v-leave-from`：定义离开过渡的开始状态
+
+`v-leave-active`：定义离开过渡生效时的状态
+
+`v-leave-to`：定义离开过渡的结束状态
+
+##### Custom Transition Classes
+
+* `enter-from-class`
+* `enter-active-class`
+* `enter-to-class`
+* `leave-from-class`
+* `leave-active-class`
+* `leave-to-class`
+
+##### JavaScript Hooks
+
+* `beforeEnter(el)`
+* `enter(el, done)`
+* `afterEnter(el)`
+* `enterCancelled(el)`
+* `beforeLeave(el)`
+* `leave(el, done)`
+* `afterLeave(el)`
+* `leaveCanclled(el)`
+
+#### Transitions on Initial Render
+
+通过 `appear` attribute 设置节点的初始渲染的过渡
+
+```html
+<transition appear>
+  ...
+</transition>
+```
+
+可自定义 CSS 类名：
+
+`appear-class`
+
+`appear-to-class`
+
+`appear-active-class`
+
+可自定义 JavaScript Hooks
+
+`@before-appear`
+
+`@appear`
+
+`@after-appear`
+
+`@appear-cancelled`
+
+#### Multiple Elements Transition
+
+> 当有**相同标签名**的元素切换时，需要通过 `key` attribute 设置唯一的值来标记以让 Vue 区分它们，否则 Vue 为了效率只会替换相同标签内部的内容。即使在技术上没有必要，**给在 `<transition>` 组件中的多个元素设置 key 是一个更好的实践**。
+
+#### List Transition
+
+`<transition-group>` 组件。
+
+* 默认 Tag `<span>`，可通过 `tag` 属性更换
+* 过渡模式不可用
+* 内部元素**总是需要**提供唯一的 `key` attribute 值
+* CSS 过渡的类将会应用在内部的元素中，而不是这个组件/容器本身
+
+##### List Sorting Transition
+
+通过 `v-move` class 改变元素的定位。
+
+> 使用 FLIP 过渡的元素不能设置 `display: inline` 。作为代替方案，可以设置为 `display: inline-block` 或者放置于 flex 中。

@@ -1,0 +1,252 @@
+body {
+  margin: 30px;
+}
+
+#transition2 {
+  // fade
+  .fade-enter-active,
+  .fade-leave-active {
+    transition: opacity 0.5s;
+  }
+
+  .fade-enter,
+  .fade-leave-to {
+    opacity: 0;
+  }
+
+  // slide fade
+  .slide-fade-enter-active {
+    transition: all 0.3s ease;
+  }
+
+  .slide-fade-leave-active {
+    transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);
+  }
+
+  .slide-fade-enter,
+  .slide-fade-leave-to {
+    transform: translateX(10px);
+    opacity: 0;
+  }
+
+  // bounce
+  .bounce-enter-active {
+    animation: bounce-in 0.5s;
+  }
+
+  .bounce-leave-active {
+    animation: bounce-in 0.5s reverse;
+  }
+
+  @keyframes bounce-in {
+    0% {
+      transform: scale(0);
+    }
+
+    50% {
+      transform: scale(1.5);
+    }
+
+    100% {
+      transform: scale(1);
+    }
+  }
+
+  // component fade
+  .component-fade-enter-active,
+  .component-fade-leave-active {
+    transition: opacity 0.3s ease;
+  }
+
+  .component-fade-enter,
+  .component-fade-leave-to {
+    opacity: 0;
+  }
+
+  .component-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 200px;
+    height: 100px;
+    background-color: #41a0ff;
+    border-radius: 5px;
+    margin: 20px;
+    color: white;
+  }
+
+  // list animate
+  .list-item {
+    transition: all 1s;
+    display: inline-block;
+    margin-right: 10px;
+  }
+
+  // .list-enter-active,
+  .list-leave-active {
+    // transition: all 1s;
+    position: absolute;
+  }
+
+  .list-enter,
+  .list-leave-to {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  .list-move {
+    transition: transform 1s;
+  }
+
+  // list sorting transition
+  .flip-list-move {
+    transition: transform 1s;
+  }
+}
+
+#sudoku-demo {
+  .container {
+    display: flex;
+    flex-wrap: wrap;
+    width: 238px;
+    margin-top: 10px;
+  }
+  .cell {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 25px;
+    height: 25px;
+    border: 1px solid #aaa;
+    margin-right: -1px;
+    margin-bottom: -1px;
+    &:nth-child(3n) {
+      margin-right: 0;
+    }
+    &:nth-child(27n) {
+      margin-bottom: 0;
+    }
+  }
+
+  .cell-move {
+    transition: transform 1s;
+  }
+}
+
+#transition3 {
+  button {
+    background-color: #ec5038;
+    border-radius: 4px;
+    display: inline-block;
+    border: none;
+    padding: 0.75rem 1rem;
+    margin: 20px 10px 0 0;
+    text-decoration: none;
+    color: #ffffff;
+    font-family: sans-serif;
+    font-size: 1rem;
+    cursor: pointer;
+    text-align: center;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+
+    &:focus {
+      outline: 1px dashed #fff;
+      outline-offset: -3px;
+    }
+  }
+
+  .shake {
+    animation: shake 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+    transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+  }
+
+  @keyframes shake {
+    10%,
+    90% {
+      transform: translate3d(-1px, 0, 0);
+    }
+
+    20%,
+    80% {
+      transform: translate3d(2px, 0, 0);
+    }
+
+    30%,
+    50%,
+    70% {
+      transform: translate3d(-4px, 0, 0);
+    }
+
+    40%,
+    60% {
+      transform: translate3d(4px, 0, 0);
+    }
+  }
+
+  .movearea {
+    transition: 0.2s background-color ease;
+  }
+
+  .ease-button {
+    background: #1b8f5a;
+    transition: background 0.25s ease-in;
+    border-radius: 4px;
+    display: inline-block;
+    border: none;
+    padding: 0.75rem 1rem;
+    margin: 0;
+    text-decoration: none;
+    color: #ffffff;
+    font-family: sans-serif;
+    font-size: 1rem;
+    cursor: pointer;
+    text-align: center;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+
+    &:hover,
+    &:focus {
+      transition: background 0.3s ease-out;
+      background-color: #3eaf7c;
+    }
+
+    &:focus {
+      outline: 1px solid #fff;
+      outline-offset: -4px;
+    }
+  }
+}
+
+#green-sock-demo {
+  .box {
+    width: 30px;
+    height: 30px;
+    background: #ec5038;
+    margin-top: 20px;
+  }
+}
+
+#dynamic-state-trans {
+  svg {
+    display: block;
+    margin: 0 auto;
+  }
+
+  polygon {
+    fill: #806cf4;
+  }
+
+  circle {
+    fill: transparent;
+    stroke: #303030;
+  }
+
+  input[type='range'] {
+    display: block;
+    width: 100%;
+    margin-bottom: 20px;
+  }
+}

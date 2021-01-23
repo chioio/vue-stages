@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Transitions & Animations</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios@0.21.0/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.20/lodash.min.js"></script>
+    <script src="https://use.fontawesome.com/cbb28a648a.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.6.0/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css" />
+    <link rel="stylesheet" href="index.css" />
+    <style>
+      .demo {
+        font-family: sans-serif;
+        border: 1px solid #eee;
+        border-radius: 5px;
+        padding: 0.5em 1em;
+        margin-top: 1em;
+        margin-bottom: 1em;
+        font-weight: lighter;
+        user-select: none;
+        overflow-x: auto;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>Transitions - Vue 2.0</h1>
+    <div id="transition2" class="demo">
+      <button @click="show = !show">Start Animation</button>
+      <h2>Fade</h2>
+      <transition name="fade">
+        <p v-if="show">Demo</p>
+      </transition>
+
+      <h2>Slide Fade</h2>
+      <transition name="slide-fade">
+        <p v-if="show">Demo</p>
+      </transition>
+
+      <h2>Bounce</h2>
+      <transition name="bounce">
+        <p v-if="show">Demo</p>
+      </transition>
+
+      <h2>animate.css</h2>
+      <transition
+        name="custom-classes-transition"
+        enter-active-class="animate__animated animate__tada"
+        leave-active-class="animate__animated animate__bounceOutRight"
+      >
+        <p v-if="show">Demo</p>
+      </transition>
+
+      <h2>JavaScript Hooks velocity.js Animate</h2>
+      <transition
+        @before-enter="beforeEnter"
+        @enter="enter"
+        @leave="leave"
+        :css="false"
+      >
+        <p v-if="show">Demo</p>
+      </transition>
+
+      <h2>Multiple Elements Transition</h2>
+      <transition-group>
+        <h3 key="title1">`v-if`, `v-else`</h3>
+        <button v-if="isEditing" key="save">Save</button>
+        <button v-else key="edit">Edit</button>
+        <h3 key="title2">`v-bind` property</h3>
+        <button @click="isEditing = !isEditing" :key="isEditing">
+          {{ isEditing ? 'Save' : 'Edit' }}
+        </button>
+        <h3 key="title3">`v-if` bind dynamic property</h3>
+        <!-- <button v-if="docState === 'saved'" key="saved">Edit</button>
+        <button v-if="docState === 'edited'" key="edited">Save</button>
+        <button v-if="docState === 'editing'" key="editing">Cancel</button> -->
+        <button :key="docState">{{ buttonMessage }}</button>
+      </transition-group>
+      <transition name="fade" mode="out-in">
+        <button @click="isOn = !isOn" :key="isOn">
+          {{ isOn ? 'Off' : 'On' }}
+        </button>
+      </transition>
+
+      <h2>Multiple Component Transition</h2>
+      <button @click="changeView">Change View</button>
+      <transition name="component-fade" mode="out-in">
+        <component :is="view"></component>
+      </transition>
+
+      <h2>List Transition</h2>
+      <button @click="shuffle">Shuffle</button>
+      <button @click="add">Add</button>
+      <button @click="remove">Remove</button>
+      <transition-group name="list" tag="p">
+        <span v-for="item in items" :key="item" class="list-item">
+          {{ item }}
+        </span>
+      </transition-group>
+    </div>
+    <!-- 列表的交错过渡 -->
+    <div id="staggered-list-demo" class="demo">
+      <h2>Staggered List Transition</h2>
+      <input v-model="query" />
+      <transition-group
+        name="staggered-fade"
+        tag="ul"
+        :css="false"
+        @before-enter="beforeEnter"
+        @enter="enter"
+        @leave="leave"
+      >
+        <li
+          v-for="(item, index) in computedList"
+          :key="item.msg"
+          :data-index="index"
+        >
+          {{ item.msg }}
+        </li>
+      </transition-group>
+    </div>
+
+    <!-- 动态过渡 -->
+    <div id="dynamic-fade-demo" class="demo">
+      <h2>Dynamic Transition</h2>
+      Fade In:
+      <input
+        type="range"
+        v-model="fadeInDuration"
+        min="0"
+        :max="maxFadeDuration"
+      />
+      <br />
+      Fade Out:
+      <input
+        type="range"
+        v-model="fadeOutDuration"
+        min="0"
+        :max="maxFadeDuration"
+      />
+      <transition
+        :css="false"
+        @before-enter="beforeEnter"
+        @enter="enter"
+        @leave="leave"
+      >
+        <p v-if="show">Demo</p>
+      </transition>
+      <button @click="changeStats">
+        {{ isStop ? 'Start animating!' : 'Stop it!' }}
+      </button>
+    </div>
+
+    <h1>Example - Lazy Sudoku</h1>
+    <div id="sudoku-demo" class="demo">
+      <p>Keep hitting the shuffle button until you win.</p>
+      <button @click="shuffle">Shuffle</button>
+      <transition-group name="cell" tag="div" class="container">
+        <div v-for="cell in cells" :key="cell.id" class="cell">
+          {{ cell.number }}
+        </div>
+      </transition-group>
+    </div>
+
+    <h1>Transitions - Vue 3.0</h1>
+    <div id="transition3" class="demo">
+      <h2>Conditional `class`</h2>
+      Push this button to do something you shouldn't be doing: <br />
+      <div :class="{ shake: noActivated }">
+        <button @click="noActivated = !noActivated">Click me</button>
+        <span v-if="noActivated">Oh no!</span>
+      </div>
+
+      <h2>Transitions with Style Bindings</h2>
+      <div
+        @mousemove="xCoordinate"
+        :style="{ backgroundColor: `hsl(${x}, 100%, 80%)` }"
+        class="movearea"
+      >
+        <h3>Move your mouse across the screen...</h3>
+        <p>x: {{ x }} y: {{ y }}</p>
+      </div>
+      <h2>Easing</h2>
+      <button class="ease-button">{{ message }}</button>
+    </div>
+
+    <!-- GreenSock 例子 -->
+    <div id="green-sock-demo" class="demo">
+      <h2>GreenSock Demo</h2>
+      <button @click="show = !show">Toggle</button>
+      <transition
+        @before-enter="beforeEnter"
+        @enter="enter"
+        @leave="leave"
+        :css="false"
+      >
+        <div v-if="show" class="box"></div>
+      </transition>
+    </div>
+
+    <div id="state-trans" class="demo">
+      <h2>State Transitions</h2>
+      <input v-model.number="number" type="number" step="20" />
+      <p>{{ animatedNumber }}</p>
+    </div>
+
+    <div id="dynamic-state-trans" class="demo">
+      <h2>Dynamic State Transitions</h2>
+      <svg width="200" height="200">
+        <polygon :points="points"></polygon>
+        <circle cx="100" cy="100" r="90"></circle>
+      </svg>
+      <label>Sides: {{ sides }}</label>
+      <input type="range" min="3" max="500" v-model.number="sides" />
+      <label>Minimum Radius: {{ minRadius }}%</label>
+      <input type="range" min="0" max="90" v-model.number="minRadius" />
+      <label>Update interval: {{ updateInterval }}</label>
+      <input type="range" min="10" max="2000" v-model.number="updateInterval" />
+    </div>
+
+    <div id="organ-trans-into-comp" class="demo">
+      <h2>Organizing Transitions into Components</h2>
+      <input v-model.number="firstNumber" type="number" step="20" /> +
+      <input v-model.number="secondNumber" type="number" step="20" /> = {{
+      result }}
+      <p>
+        <animated-integer :value="firstNumber"></animated-integer> +
+        <animated-integer :value="secondNumber"></animated-integer> =
+        <animated-integer :value="result"></animated-integer>
+      </p>
+    </div>
+
+    <script type="module" src="vue-2.0.js"></script>
+    <script type="module" src="vue-3.0.js"></script>
+  </body>
+</html>
