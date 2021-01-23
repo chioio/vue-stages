@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue Basics</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios@0.21.0/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.20/lodash.min.js"></script>
+    <style>
+      .demo {
+        font-family: sans-serif;
+        border: 1px solid #eee;
+        border-radius: 5px;
+        padding: 0.5em 1em;
+        margin-top: 1em;
+        margin-bottom: 1em;
+        font-weight: lighter;
+        user-select: none;
+        overflow-x: auto;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>Mixins</h1>
+    <div id="mixins-basic" class="demo">
+      <h2>Mixins Basic & Option Merge</h2>
+      <b>Console logs when this Vue instance created...</b>
+    </div>
+    <div id="mixins-basic2" class="demo">
+      <h2>Mixins Basic - Vue 2.0</h2>
+      <b>Console logs when this Vue instance created...</b>
+    </div>
+    <div id="global-mixin" class="demo">
+      <h2>Global Mixin</h2>
+      <b>Console logs when this Vue instance created...</b>
+      <test-component></test-component>
+    </div>
+
+    <script type="module" src="vue-3.0.js"></script>
+    <script type="module" src="vue-2.0.js"></script>
+  </body>
+</html>

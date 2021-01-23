@@ -9,12 +9,14 @@
   "workspaces": [
     "packages/basic",
     "packages/component-in-depth",
-    "packages/transition-animation"
+    "packages/transition-animation",
+    "packages/reusability-composition"
   ],
   "scripts": {
     "dev:basic": "yarn workspace basic dev",
     "dev:comp": "yarn workspace component-in-depth dev",
-    "dev:trans": "yarn workspace transition-animation dev"
+    "dev:trans": "yarn workspace transition-animation dev",
+    "dev:reuse": "yarn workspace reusability-composition dev"
   },
   "devDependencies": {
     "@babel/cli": "^7.12.10",

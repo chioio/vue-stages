@@ -1,0 +1,11 @@
+{
+  "name": "reusability-composition",
+  "version": "1.0.0",
+  "license": "MIT",
+  "scripts": {
+    "dev": "browser-sync . --directory --watch --no-notify"
+  },
+  "devDependencies": {
+    "browser-sync": "^2.26.13"
+  }
+}
