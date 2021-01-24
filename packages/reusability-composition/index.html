@@ -37,6 +37,16 @@
       <test-component></test-component>
     </div>
 
+    <h1>Custom Directive</h1>
+    <div id="custom-directive" class="demo">
+      <input v-focus />
+    </div>
+    <div id="dynamic-arguments-directive" class="demo">
+      <h3>Scroll down inside this section ↓</h3>
+      <input type="range" min="0" max="500" v-model="pinPadding" />
+      <p v-pin:[direction]="pinPadding">I am pinned onto the page at 200px to the left.</p>
+    </div>
+
     <script type="module" src="vue-3.0.js"></script>
     <script type="module" src="vue-2.0.js"></script>
   </body>

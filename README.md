@@ -1118,6 +1118,8 @@ app.component('terms-of-service', {
 
 
 
+## Reusability & Composition
+
 ### Mixins
 
 #### Basic
@@ -1147,5 +1149,53 @@ const app = Vue.createApp({})
 app.config.optionMergeStrategies.customOption = (toVal, fromVal) => {
   // return mergedVal
 }
+```
+
+
+
+### Custom Drective
+
+```js
+app.directive('focus', {})
+
+// 局部注册指令
+directives: {
+  focus: {
+    // ...
+  }
+}
+```
+
+#### Hook Functions (Vue 3.0)
+
+* `beforeMount`：当指令第一次绑定到元素并且挂载父组件之前调用。
+* `mounted`：在挂载绑定元素的父组件时调用。
+* `beforeUpdate`：在更新包含组件的 VNode 之前调用。
+* `updated`：在包含组件的 VNode **及其子组件的 VNode** 更新后调用。
+* `beforeUnmount`：在卸载绑定元素的父组件之前调用。
+* `unmounted`：当指令与元素解除绑定且父组件已卸载时，只调用一次。
+
+##### Dynamic Drective Arguments
+
+`v-mydirective:[argument]="value"`
+
+#### Function Shorthand
+
+仅 `mounted` 和 `updated` 触发相同的行为：
+
+```js
+app.directive('pin', (el, binding) => {
+  el.style.position = 'fixed'
+  const s = binding.arg || 'top'
+  el.style[s] = binding.value + 'px'
+})
+```
+
+#### Object Literals
+
+指令函数能够接受所有合法的 JavaScript 表达式。
+
+```html
+<div v-demo="{ color: 'white', text: 'hello!' }"></div>
 ```
 

@@ -74,3 +74,34 @@ GlobalMixinApp.component('test-component', {
 })
 
 GlobalMixinApp.mount('#global-mixin')
+
+const CustomDirectiveApp = Vue.createApp({})
+
+CustomDirectiveApp.directive('focus', {
+  mounted(el) {
+    el.focus()
+  }
+})
+
+CustomDirectiveApp.mount('#custom-directive')
+
+const DynamicArgumentDirectiveApp = Vue.createApp({
+  data: () => ({
+    direction: 'right',
+    pinPadding: 200
+  })
+})
+
+DynamicArgumentDirectiveApp.directive('pin', {
+  mounted(el, binding) {
+    el.style.position = 'fixed'
+    const s = binding.arg || 'top'
+    el.style[s] = binding.value + 'px'
+  },
+  updated(el, binding) {
+    const s = binding.arg || 'top'
+    el.style[s] = binding.value + 'px'
+  }
+})
+
+DynamicArgumentDirectiveApp.mount('#dynamic-arguments-directive')
