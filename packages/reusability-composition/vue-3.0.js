@@ -105,3 +105,46 @@ DynamicArgumentDirectiveApp.directive('pin', {
 })
 
 DynamicArgumentDirectiveApp.mount('#dynamic-arguments-directive')
+
+const TeleportApp = Vue.createApp({})
+
+TeleportApp.component('modal-button', {
+  template: `
+    <button @click="modalOpen = true">
+      Open full screen modal!
+    </button>
+
+    <teleport to="body">
+      <div v-if="modalOpen" class="modal">
+        <div>
+          I'm a modal!
+          (My parent is "#tooltips-teleport")
+          <button @click="modalOpen = false">
+            Close
+          </button>
+        </div>
+      </div>
+    </teleport>
+  `,
+  data: () => ({
+    modalOpen: false
+  })
+})
+
+TeleportApp.component('parent-component', {
+  template: `
+    <h3>This is a parent component</h3>
+    <teleport to="#teleport">
+      <child-component name="John" />
+    </teleport>
+  `
+})
+
+TeleportApp.component('child-component', {
+  props: ['name'],
+  template: `
+    <div>Hello, {{ name }}</div>
+  `
+})
+
+TeleportApp.mount('#teleport')

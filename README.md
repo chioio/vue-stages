@@ -1199,3 +1199,9 @@ app.directive('pin', (el, binding) => {
 <div v-demo="{ color: 'white', text: 'hello!' }"></div>
 ```
 
+
+
+### Teleport (Vue 3.0)
+
+`<teleport to="selector">...</teleport>`
+
