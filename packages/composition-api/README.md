@@ -214,3 +214,82 @@ When using reactive provide / inject values, **it is recommended to keep any mut
 
 
 
+## Template Refs
+
+When using the Composition API, the concept of reactive `refs` and template `ref`s are unified(统一的).
+
+```html
+<template>
+  <div ref="root">
+    This is a root element
+  </div>
+</template>
+
+<script>
+  import { ref, onMounted } from 'vue'
+  
+  export default {
+    setup() {
+      const root = ref(null)
+      
+      onMounted(() => {
+        console.log(root.value)
+      })
+      
+      return {
+        root
+      }
+    }
+  }
+</script>
+```
+
+### Usage with JSX
+
+```js
+export default {
+  setup() {
+    const root = ref(null)
+    
+    return () =>
+    	h('div', {
+      	ref: root
+    	})
+    
+    // with JSX
+    return () => <div ref={root} />
+  }
+}
+```
+
+### Usage inside `v-for`
+
+```html
+<template>
+  <div v-for="(item, i) in list" :ref="el => { if (el) divs[i] = el }">
+    {{ item }}
+  </div>
+</template>
+
+<script>
+  import { ref, reactive, onBeforeUpdate } from 'vue'
+  
+  export default {
+    setup() {
+      const list = reactive([1, 2, 3])
+      const divs = ref([])
+      
+      // make sure to reset the refs before each update
+      onBeforeUpdate(() => {
+        divs.value = []
+      })
+      
+      return {
+        list,
+        divs
+      }
+    }
+  }
+</script>
+```
+
