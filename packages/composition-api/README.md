@@ -184,3 +184,33 @@ Inside `setup()`, `this` **won't** be a reference to the current active instance
 
 
 
+## Provide / Inject
+
+### Using Provide
+
+The `provide` function allows us to define the property through two parameters: 
+
+1. The property's name (`<String>` type)
+2. The property's value
+
+### Using Inject
+
+The `inject` function takes two parameters: 
+
+1. The name of the property to iinject
+2. A default value (Optional)
+
+### Reactivity
+
+#### Add Reactivity
+
+To add reactivity between provided and injected values, we can use a `ref` or `reactive` when providing a value.
+
+#### Mutating Reactive Properties
+
+When using reactive provide / inject values, **it is recommended to keep any mutations to reactive properties inside of the *provider* whenever possible**.
+
+* It is recommended using `readonly` on provided property if we want to ensure that the data passed through `provide` cannot be mutated by the injected component.
+
+
+
