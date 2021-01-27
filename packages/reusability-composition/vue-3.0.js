@@ -43,7 +43,7 @@ const MixinsBasicApp = {
     bar() {
       console.log('bar')
     },
-    // the component's options will take priority when 
+    // the component's options will take priority when
     // there are conflicting keys in these objects
     conflicting() {
       console.log('from self')
@@ -75,6 +75,9 @@ GlobalMixinApp.component('test-component', {
 
 GlobalMixinApp.mount('#global-mixin')
 
+/**
+ * Custom Directive
+ */
 const CustomDirectiveApp = Vue.createApp({})
 
 CustomDirectiveApp.directive('focus', {
@@ -106,6 +109,9 @@ DynamicArgumentDirectiveApp.directive('pin', {
 
 DynamicArgumentDirectiveApp.mount('#dynamic-arguments-directive')
 
+/**
+ * Teleport
+ */
 const TeleportApp = Vue.createApp({})
 
 TeleportApp.component('modal-button', {
@@ -148,3 +154,81 @@ TeleportApp.component('child-component', {
 })
 
 TeleportApp.mount('#teleport')
+
+/**
+ * Render Functions
+ */
+const RenderFuncApp = Vue.createApp({})
+
+/*
+RenderFuncApp.component('anchored-heading', {
+  render() {
+    const { h } = Vue
+
+    return h(
+      'h' + this.level, // tag name
+      {}, // props/attributes
+      this.$slots.default() // array of children
+    )
+  },
+  props: {
+    level: {
+      type: Number,
+      required: true
+    }
+  }
+})
+*/
+
+/**
+ * Recursively get text from children nodes
+ */
+function getChildrenTextContent(children) {
+  return children
+    .map((node) => {
+      return typeof node.children === 'string'
+        ? node.children
+        : Array.isArray(node.children)
+        ? getChildrenTextContent(node.children)
+        : ''
+    })
+    .join('')
+}
+
+RenderFuncApp.component('anchored-heading', {
+  render() {
+    // create kebab-case id from the text contents
+    const headingId = getChildrenTextContent(this.$slots.default())
+      .toLowerCase()
+      .replace(/\W+/g, '-') // replace non-word characters with dash
+      .replace(/(^-|-$)/g, '') // remove leading and trailing dashes
+
+    return Vue.h('h' + this.level, [
+      Vue.h(
+        'a',
+        {
+          name: headingId,
+          href: '#' + headingId
+        },
+        this.$slots.default()
+      )
+    ])
+  },
+  props: {
+    level: {
+      type: Number,
+      require: true
+    }
+  }
+})
+
+// duplicate the same element/component many times
+RenderFuncApp.component('dup-the-same', {
+  render() {
+    return Vue.h('div', Array.from({ length: 20 }).map(() => {
+      return Vue.h('span', ' hi ')
+    }))
+  }
+})
+
+RenderFuncApp.mount('#render-functions')

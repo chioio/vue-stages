@@ -18,3 +18,21 @@ new Vue({
     console.log(this.$data)
   }
 })
+
+/**
+ * Render Functions & JSX
+ */
+Vue.component('anchored-heading', {
+  render(createElement) {
+    return createElement(
+      'h' + this.level, // tag name
+      this.$slots.default // array of children
+    )
+  },
+  props: {
+    level: {
+      type: Number,
+      required: true
+    }
+  }
+})

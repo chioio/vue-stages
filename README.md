@@ -1205,3 +1205,124 @@ app.directive('pin', (el, binding) => {
 
 `<teleport to="selector">...</teleport>`
 
+
+
+### Render Functions (Vue 3.0)
+
+`Vue.h(tag, props, children)`
+
+#### Using JavaScript replace Template Feature
+
+##### `v-if` & `v-for`
+
+Using `if`/`else` and `map()` replace template `v-if` and `v-for` feature:
+
+```js
+props: ['items'],
+render() {
+  if (this.items.length) {
+    return Vue.h('ul', this.items.map((item) => {
+      return Vue.h('li', item.name)
+    }))
+  } else {
+    return Vue.h('p', 'No items found.')
+  }
+}
+```
+
+##### `v-model`
+
+`v-model` 扩展为 `modelValue` 和 `onUpdate:modelValue`：
+
+```js
+props: ['modelValue'],
+render() {
+  return Vue.h(SomeComponent, {
+    modelValue: this.modelValue,
+    'onUpdate:modelValue': value => this.$emit('update:modelValue', value)
+  })
+}
+```
+
+##### `v-on`
+
+```js
+render() {
+  return Vue.h('div', {
+    onClick: $event => console.log('clicked', $event.target)
+  })
+}
+```
+
+##### Event Modifiers
+
+`.passive`, `.capture`, `.once`
+
+```js
+render() {
+  return Vue.h('input', {
+    onClick: {
+      handler: this.doThisInCapturingMode,
+      capture: true
+    },
+    onKeyUp: {
+      handler: this.doThisOnce,
+      once: true
+    },
+    onMouseOver: {
+      handler: this.doThisOnceInCapuringMode,
+      once: true,
+      capture: true
+    }
+  })
+}
+```
+
+`.stop`, `.prevent`, `.self`, `.enter`, `.13`, `.ctrl`, `.alt`, `.shift`, `.meta`
+
+```js
+render() {
+  return Vue.h('input', {
+    onKeyUp: event => {
+      if (event.target !== event.currentTarget) return
+      if (!event.shiftKey || event.keyCode !== 13) return
+      event.stopPropagation()
+      event.preventDefault()
+      // ...
+    }
+  })
+}
+```
+
+##### Slots
+
+`this.$slots`
+
+```js
+render() {
+  // `<div><slot></slot></div>`
+  return Vue.h('div', {}, this.$slots.default())
+}
+```
+
+```js
+props: ['message'],
+render() {
+  // `<div><slot :text="message"></slot></div>`
+  return Vue.h('div', {}, this.$slots.default({ text: this.message }))
+}
+```
+
+将 slot 传递给子组件：
+
+```js
+render() {
+  // `<div><child v-slot="props"><span>{{ props.text }}</span></child></div>`
+  return Vue.h('div', [
+    Vue.h('child', {}, {
+      default: (props) => Vue.h('span', props.text)
+    })
+  ])
+}
+```
+
