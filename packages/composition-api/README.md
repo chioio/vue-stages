@@ -70,3 +70,95 @@ The `computed` function returns a read-only **Reactive Reference** to the ouput 
 
 
 
+## Setup
+
+### Argument
+
+* `props`
+* `context`
+
+#### Props
+
+`props` inside of a `setup` function are reactive and will be updated when new props are passed in.
+
+> **WARNING**
+>
+> However, because `props` are reactive, we **cannot use ES6 destructuring** because it will remove props reactivity.
+
+If wee need to destructure our props, we can do this by utilizing the `toRefs` inside of the `setup` function: 
+
+```js
+import { toRefs } from 'vue'
+
+setup(props) {
+  const { title } = toRefs(props)
+  console.log(title.value)
+}
+```
+ If `title` is an optional prop, it could be missing from `props`. So in this case, `toRefs` won't create a ref for `title`. Instead we'd need to use `toRef`: 
+
+```js
+import { toRef } from 'vue'
+
+setup(props) {
+	const title = toRef(props, 'title')
+  console.log(title.value)
+}
+```
+
+#### Context
+
+The `context` is a normal JavaScript object that is **not reactive** and exposes three component properties: 
+
+```js
+export default {
+  setup(props, context) {
+    // Attributes (Non-reactive object)
+    console.log(context.attrs)
+    
+    // Slots (Non-reactive object)
+    console.log(context.slots)
+    
+    // Emit Events (Method)
+    console.log(context.emit)
+  }
+  
+  // We can safely use ES6 destructuriing on `context`
+  // due to the `context` is not reactive.
+  setup(props, { attrs, slots, emit }) {
+    // ...
+  }
+}
+```
+
+`attrs` and `slots` are stateful objects that are always updated when the component itself is updated.
+
+### Accessing Component Properties
+
+When `setup` is executed, the component instance has not been created yet. As a result, we will only be able to access the: 
+
+* `props`
+* `attrs`
+* `slots`
+* `emit`
+
+Not have access to the: 
+
+* `data`
+* `computed`
+* `methods`
+
+### Usage with Templates
+
+If `setup` returns an object, the properties on the object can be accessed in the component's template, as well as the properties of the `props` passed into `setup`.
+
+### Usage with Render Functions
+
+`setup` can also return a render function which can directly make use of the reactive state declared in the same scope.
+
+### Usage of `this`
+
+Inside `setup()`, `this` **won't** be a reference to the current active instance . (Since `setup()` is called before other component options are resolved, `this` inside `setup()` will behave quite differently from `this` in other options) So avoid to use `this` in `setup()`.
+
+
+
