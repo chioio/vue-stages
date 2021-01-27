@@ -162,3 +162,25 @@ Inside `setup()`, `this` **won't** be a reference to the current active instance
 
 
 
+## Lifecycle Hooks
+
+| Options API       | Hook inside setup   |
+| ----------------- | ------------------- |
+| `beforeCreate`    | Not needed*         |
+| `created`         | Not needed*         |
+| `beforeMount`     | `onBeforeMount`     |
+| `mounted`         | `onMounted`         |
+| `beforeUpdate`    | `onBeforeUpdate`    |
+| `updated`         | `onUpdated`         |
+| `beforeUnmount`   | `onBeforeUnmount`   |
+| `unmounted`       | `onUnmounted`       |
+| `errorCaptured`   | `onErrorCaptured`   |
+| `renderTracked`   | `onRenderTracked`   |
+| `renderTriggered` | `onRenderTriggered` |
+
+> **TIP**
+>
+> Because `setup` is run around the `beforeCreate` and `created` lifecycle hooks, we do not need to explicitly define them.
+
+
+
